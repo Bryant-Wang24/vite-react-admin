@@ -4,9 +4,11 @@ import { Layout, Menu, Breadcrumb } from '@arco-design/web-react';
 import cs from 'classnames';
 import {
   IconDashboard,
+  IconPhone,
   IconTag,
   IconMenuFold,
   IconMenuUnfold,
+  IconStorage
 } from '@arco-design/web-react/icon';
 import { useSelector } from 'react-redux';
 import qs from 'query-string';
@@ -31,8 +33,12 @@ function getIconFromKey(key) {
   switch (key) {
     case 'dashboard':
       return <IconDashboard className={styles.icon} />;
+    case 'dashboard/workplace':
+      return <IconPhone className={styles.icon} />;
     case 'example':
       return <IconTag className={styles.icon} />;
+    case 'categories':
+      return <IconStorage className={styles.icon} />;
     default:
       return <div className={styles['icon-empty']} />;
   }
@@ -112,6 +118,7 @@ function PageLayout() {
       return _routes.map((route) => {
         const { breadcrumb = true } = route;
         const iconDom = getIconFromKey(route.key);
+        console.log(route);
         const titleDom = (
           <>
             {iconDom} {locale[route.name] || route.name}
