@@ -20,7 +20,7 @@ import './mock';
 const store = createStore(rootReducer);
 
 function Index() {
-  const [lang, setLang] = useStorage('arco-lang', 'en-US');
+  const [lang, setLang] = useStorage('arco-lang', 'zhCN');
   const [theme, setTheme] = useStorage('arco-theme', 'light');
 
   function getArcoLocale() {
