@@ -1,8 +1,8 @@
 import {
   Form,
   Input,
-  Checkbox,
-  Link,
+  // Checkbox,
+  // Link,
   Button,
   Space,
 } from '@arco-design/web-react';
@@ -34,7 +34,7 @@ export default function LoginForm() {
       removeLoginParams();
     }
     // 记录登录状态
-    localStorage.setItem('userStatus', 'login');
+    // localStorage.setItem('userStatus', 'login');
     // 跳转首页
     window.location.href = '/';
   }
@@ -43,7 +43,7 @@ export default function LoginForm() {
     setErrorMessage('');
     setLoading(true);
     axios
-      .post('/api/user/login', params)
+      .post('/api/v1/admin/login', params)
       .then((res) => {
         const { status, msg } = res.data;
         if (status === 'ok') {
@@ -60,6 +60,7 @@ export default function LoginForm() {
   function onSubmitClick() {
     formRef.current.validate().then((values) => {
       login(values);
+      console.log(values);
     });
   }
 
@@ -107,22 +108,22 @@ export default function LoginForm() {
           />
         </Form.Item>
         <Space size={16} direction="vertical">
-          <div className={styles['login-form-password-actions']}>
-            <Checkbox checked={rememberPassword} onChange={setRememberPassword}>
-              {t['login.form.rememberPassword']}
-            </Checkbox>
-            <Link>{t['login.form.forgetPassword']}</Link>
-          </div>
+          {/*<div className={styles['login-form-password-actions']}>*/}
+          {/*  <Checkbox checked={rememberPassword} onChange={setRememberPassword}>*/}
+          {/*    {t['login.form.rememberPassword']}*/}
+          {/*  </Checkbox>*/}
+          {/*  <Link>{t['login.form.forgetPassword']}</Link>*/}
+          {/*</div>*/}
           <Button type="primary" long onClick={onSubmitClick} loading={loading}>
             {t['login.form.login']}
           </Button>
-          <Button
-            type="text"
-            long
-            className={styles['login-form-register-btn']}
-          >
-            {t['login.form.register']}
-          </Button>
+          {/*<Button*/}
+          {/*  type="text"*/}
+          {/*  long*/}
+          {/*  className={styles['login-form-register-btn']}*/}
+          {/*>*/}
+          {/*  {t['login.form.register']}*/}
+          {/*</Button>*/}
         </Space>
       </Form>
     </div>

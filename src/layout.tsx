@@ -118,7 +118,6 @@ function PageLayout() {
       return _routes.map((route) => {
         const { breadcrumb = true } = route;
         const iconDom = getIconFromKey(route.key);
-        console.log(route);
         const titleDom = (
           <>
             {iconDom} {locale[route.name] || route.name}

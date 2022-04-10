@@ -20,7 +20,7 @@ const i18n = {
     'login.banner.subSlogan3': 'Realize flexible block development',
   },
   'zh-CN': {
-    'login.form.title': '登录 Arco Design Pro',
+    'login.form.title': '登录 博客后台管理系统',
     'login.form.userName.errMsg': '用户名不能为空',
     'login.form.password.errMsg': '密码不能为空',
     'login.form.login.errMsg': '登录出错，轻刷新重试',
