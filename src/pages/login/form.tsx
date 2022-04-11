@@ -34,8 +34,9 @@ export default function LoginForm() {
       removeLoginParams();
     }
     // 记录登录状态
-    // localStorage.setItem('userStatus', 'login');
+    localStorage.setItem('userStatus', 'login');
     // 跳转首页
+    console.log('跳转首页');
     window.location.href = '/';
   }
 
@@ -45,11 +46,13 @@ export default function LoginForm() {
     axios
       .post('/api/v1/admin/login', params)
       .then((res) => {
-        const { status, msg } = res.data;
-        if (status === 'ok') {
-          afterLoginSuccess(params);
+        console.log('res', res);
+        if (res.data.data) {
+          if (res.data.code === 0) {
+            afterLoginSuccess(params);
+          }
         } else {
-          setErrorMessage(msg || t['login.form.login.errMsg']);
+          setErrorMessage(res.data.msg || t['login.form.login.errMsg']);
         }
       })
       .finally(() => {
@@ -85,7 +88,7 @@ export default function LoginForm() {
         className={styles['login-form']}
         layout="vertical"
         ref={formRef}
-        initialValues={{ userName: 'admin', password: 'admin' }}
+        initialValues={{ userName: 'admin', password: '123456' }}
       >
         <Form.Item
           field="userName"

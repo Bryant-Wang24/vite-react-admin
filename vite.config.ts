@@ -9,15 +9,15 @@ export default defineConfig({
   resolve: {
     alias: [{ find: '@', replacement: '/src' }],
   },
-  server: {
-    proxy: {
-      '/v1': {
-        target: 'http://192.0.0.1:7001',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/v1/, ''),
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     '/v1': {
+  //       target: 'http://192.0.0.1:7001',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/v1/, ''),
+  //     },
+  //   },
+  // },
   plugins: [
     react(),
     svgrPlugin({
