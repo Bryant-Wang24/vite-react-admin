@@ -89,7 +89,13 @@ export default function LoginForm() {
       >
         <Form.Item
           field="userName"
-          rules={[{ required: true, message: t['login.form.userName.errMsg'] }]}
+          rules={[
+            { required: true, message: t['login.form.userName.errMsg'] },
+            {
+              match: /^[\u4E00-\u9FA5A-Za-z0-9_]{5,20}$/,
+              message: '用户名5-20位',
+            },
+          ]}
         >
           <Input
             prefix={<IconUser />}
@@ -99,7 +105,13 @@ export default function LoginForm() {
         </Form.Item>
         <Form.Item
           field="password"
-          rules={[{ required: true, message: t['login.form.password.errMsg'] }]}
+          rules={[
+            { required: true, message: t['login.form.password.errMsg'] },
+            {
+              match: /^[A-Za-z0-9_]{6,20}$/,
+              message: '密码6-20位数字字母下划线组合',
+            },
+          ]}
         >
           <Input.Password
             prefix={<IconLock />}
