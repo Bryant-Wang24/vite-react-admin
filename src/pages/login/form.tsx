@@ -8,56 +8,41 @@ import {
 } from '@arco-design/web-react';
 import { FormInstance } from '@arco-design/web-react/es/Form';
 import { IconLock, IconUser } from '@arco-design/web-react/icon';
-import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import useStorage from '@/utils/useStorage';
+import React, { useRef, useState } from 'react';
 import useLocale from '@/utils/useLocale';
 import locale from './locale';
 import styles from './style/index.module.less';
+import { login as adminLogin } from '@/api/login';
 
 export default function LoginForm() {
   const formRef = useRef<FormInstance>();
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [loginParams, setLoginParams, removeLoginParams] =
-    useStorage('loginParams');
 
   const t = useLocale(locale);
 
-  const [rememberPassword, setRememberPassword] = useState(!!loginParams);
-
   function afterLoginSuccess(params) {
-    // 记住密码
-    if (rememberPassword) {
-      setLoginParams(JSON.stringify(params));
-    } else {
-      removeLoginParams();
-    }
     // 记录登录状态
-    localStorage.setItem('userStatus', 'login');
+    localStorage.setItem('token', params.token);
     // 跳转首页
     console.log('跳转首页');
     window.location.href = '/';
   }
 
-  function login(params) {
+  async function login(params) {
     setErrorMessage('');
     setLoading(true);
-    axios
-      .post('/api/v1/admin/login', params)
-      .then((res) => {
-        console.log('res', res);
-        if (res.data.data) {
-          if (res.data.code === 0) {
-            afterLoginSuccess(params);
-          }
-        } else {
-          setErrorMessage(res.data.msg || t['login.form.login.errMsg']);
+    try {
+      const res = await adminLogin(params);
+      console.log('res', res);
+      if ((res as any).data) {
+        if ((res as any).code === 0) {
+          afterLoginSuccess((res as any).data);
         }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+      } else {
+        setErrorMessage((res as any).msg || t['login.form.login.errMsg']);
+      }
+    } catch (error) {}
   }
 
   function onSubmitClick() {
@@ -66,17 +51,6 @@ export default function LoginForm() {
       console.log(values);
     });
   }
-
-  // 读取 localStorage，设置初始值
-  useEffect(() => {
-    const rememberPassword = !!loginParams;
-    setRememberPassword(rememberPassword);
-    if (formRef.current && rememberPassword) {
-      const parseParams = JSON.parse(loginParams);
-      formRef.current.setFieldsValue(parseParams);
-    }
-  }, [loginParams]);
-
   return (
     <div className={styles['login-form-wrapper']}>
       <div className={styles['login-form-title']}>{t['login.form.title']}</div>

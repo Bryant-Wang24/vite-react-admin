@@ -47,7 +47,7 @@ function Navbar({ show }: { show: boolean }) {
   const { setLang, lang, theme, setTheme } = useContext(GlobalContext);
 
   function logout() {
-    setUserStatus('logout');
+    localStorage.removeItem('token');
     window.location.href = '/admin/login';
   }
 
