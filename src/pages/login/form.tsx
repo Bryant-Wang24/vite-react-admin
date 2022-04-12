@@ -41,7 +41,11 @@ export default function LoginForm() {
       } else {
         setErrorMessage((res as any).msg || t['login.form.login.errMsg']);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   function onSubmitClick() {
