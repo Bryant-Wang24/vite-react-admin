@@ -1,6 +1,9 @@
 const i18n = {
   'en-US': {
-    'login.form.title': 'Login to Arco Design Pro',
+    'Username 5-20 bits': 'Username 5-20 bits',
+    'Password 6-20 digit alphanumeric underscore combination': 'Password 6-20 digit alphanumeric underscore combination',
+    'login.form.title': 'Log in to blog management system',
+    'title': 'Blog management system',
     'login.form.userName.errMsg': 'Username cannot be empty',
     'login.form.password.errMsg': 'Password cannot be empty',
     'login.form.login.errMsg': 'Login error, refresh and try again',
@@ -20,7 +23,10 @@ const i18n = {
     'login.banner.subSlogan3': 'Realize flexible block development',
   },
   'zh-CN': {
+    'Username 5-20 bits':'用户名5-20位',
+    'Password 6-20 digit alphanumeric underscore combination':'密码6-20位数字字母下划线组合',
     'login.form.title': '登录 博客后台管理系统',
+    'title': '博客后台管理系统',
     'login.form.userName.errMsg': '用户名不能为空',
     'login.form.password.errMsg': '密码不能为空',
     'login.form.login.errMsg': '登录出错，轻刷新重试',

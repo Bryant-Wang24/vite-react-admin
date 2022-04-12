@@ -4,8 +4,11 @@ import Logo from '@/assets/logo.svg';
 import LoginForm from './form';
 import LoginBanner from './banner';
 import styles from './style/index.module.less';
+import locale from './locale';
+import useLocale from '@/utils/useLocale';
 
 function Login() {
+  const t = useLocale(locale);
   useEffect(() => {
     document.body.setAttribute('arco-theme', 'light');
   }, []);
@@ -14,7 +17,7 @@ function Login() {
     <div className={styles.container}>
       <div className={styles.logo}>
         <Logo />
-        <div className={styles['logo-text']}>博客后台管理系统</div>
+        <div className={styles['logo-text']}>{t['title']}</div>
       </div>
       <div className={styles.banner}>
         <div className={styles['banner-inner']}>

@@ -25,7 +25,6 @@ export default function LoginForm() {
     // 记录登录状态
     localStorage.setItem('token', params.token);
     // 跳转首页
-    console.log('跳转首页');
     window.location.href = '/';
   }
 
@@ -70,7 +69,7 @@ export default function LoginForm() {
             { required: true, message: t['login.form.userName.errMsg'] },
             {
               match: /^[\u4E00-\u9FA5A-Za-z0-9_]{5,20}$/,
-              message: '用户名5-20位',
+              message: t['Username 5-20 bits'],
             },
           ]}
         >
@@ -86,7 +85,7 @@ export default function LoginForm() {
             { required: true, message: t['login.form.password.errMsg'] },
             {
               match: /^[A-Za-z0-9_]{6,20}$/,
-              message: '密码6-20位数字字母下划线组合',
+              message: t['Password 6-20 digit alphanumeric underscore combination'],
             },
           ]}
         >
