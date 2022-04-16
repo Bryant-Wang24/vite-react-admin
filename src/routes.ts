@@ -24,9 +24,9 @@ export const routes: Route[] = [
     key: 'example',
   },
   {
-    name:'menu.categories',
-    key:'categories'
-  }
+    name: 'menu.categories',
+    key: 'categories',
+  },
 ];
 
 export const getName = (path: string, routes) => {

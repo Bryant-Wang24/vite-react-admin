@@ -35,6 +35,8 @@ import styles from './style/index.module.less';
 import defaultLocale from '@/locale';
 import useStorage from '@/utils/useStorage';
 import { generatePermission } from '@/routes';
+import { logout } from '@/api/login';
+import { LogoutMessage } from '@/interface/interface';
 
 function Navbar({ show }: { show: boolean }) {
   const t = useLocale();
@@ -46,20 +48,22 @@ function Navbar({ show }: { show: boolean }) {
 
   const { setLang, lang, theme, setTheme } = useContext(GlobalContext);
 
-  function logout() {
-    localStorage.removeItem('token');
-    window.location.href = '/admin/login';
-  }
-
-  function onMenuItemClick(key) {
+  async function onMenuItemClick(key: string) {
     if (key === 'logout') {
-      logout();
+      const res: LogoutMessage = await logout();
+      if (res.code === 0) {
+        localStorage.removeItem('token');
+        window.location.href = '/admin/login';
+        Message.success(res.msg);
+      }
     } else {
       Message.info(`You clicked ${key}`);
     }
   }
 
   useEffect(() => {
+    console.log('userInfo', userInfo);
+
     dispatch({
       type: 'update-userInfo',
       payload: {

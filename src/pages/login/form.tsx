@@ -13,6 +13,7 @@ import useLocale from '@/utils/useLocale';
 import locale from './locale';
 import styles from './style/index.module.less';
 import { login as adminLogin } from '@/api/login';
+import { LoginResParams, UserInfo } from '@/interface/interface';
 
 export default function LoginForm() {
   const formRef = useRef<FormInstance>();
@@ -28,18 +29,17 @@ export default function LoginForm() {
     window.location.href = '/';
   }
 
-  async function login(params) {
+  async function login(params: UserInfo) {
     setErrorMessage('');
     setLoading(true);
     try {
-      const res = await adminLogin(params);
-      console.log('res', res);
-      if ((res as any).data) {
-        if ((res as any).code === 0) {
-          afterLoginSuccess((res as any).data);
+      const res: LoginResParams = await adminLogin(params);
+      if (res.data) {
+        if (res.code === 0) {
+          afterLoginSuccess(res.data);
         }
       } else {
-        setErrorMessage((res as any).msg || t['login.form.login.errMsg']);
+        setErrorMessage(res.msg || t['login.form.login.errMsg']);
       }
     } catch (error) {
       console.log('error', error);
