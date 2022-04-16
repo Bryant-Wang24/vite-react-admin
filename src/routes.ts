@@ -20,12 +20,20 @@ export const routes: Route[] = [
     ],
   },
   {
-    name: 'Example',
-    key: 'example',
+    name: '欢迎页',
+    key: 'welcome',
+  },
+  {
+    name: '文章管理',
+    key: 'article',
   },
   {
     name: 'menu.categories',
     key: 'categories',
+  },
+  {
+    name: '标签管理',
+    key: 'labels',
   },
 ];
 

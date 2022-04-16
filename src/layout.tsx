@@ -8,7 +8,7 @@ import {
   IconTag,
   IconMenuFold,
   IconMenuUnfold,
-  IconStorage
+  IconStorage,
 } from '@arco-design/web-react/icon';
 import { useSelector } from 'react-redux';
 import qs from 'query-string';
