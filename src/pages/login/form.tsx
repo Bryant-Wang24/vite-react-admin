@@ -65,21 +65,21 @@ export default function LoginForm() {
         className={styles['login-form']}
         layout="vertical"
         ref={formRef}
-        initialValues={{ userName: 'admin', password: '123456' }}
+        initialValues={{ username: 'admin', password: '123456' }}
       >
         <Form.Item
-          field="userName"
+          field="username"
           rules={[
-            { required: true, message: t['login.form.userName.errMsg'] },
+            { required: true, message: t['login.form.username.errMsg'] },
             {
               match: /^[\u4E00-\u9FA5A-Za-z0-9_]{5,20}$/,
-              message: t['Username 5-20 bits'],
+              message: t['username 5-20 bits'],
             },
           ]}
         >
           <Input
             prefix={<IconUser />}
-            placeholder={t['login.form.userName.placeholder']}
+            placeholder={t['login.form.username.placeholder']}
             onPressEnter={onSubmitClick}
           />
         </Form.Item>
@@ -89,7 +89,8 @@ export default function LoginForm() {
             { required: true, message: t['login.form.password.errMsg'] },
             {
               match: /^[A-Za-z0-9_]{6,20}$/,
-              message: t['Password 6-20 digit alphanumeric underscore combination'],
+              message:
+                t['Password 6-20 digit alphanumeric underscore combination'],
             },
           ]}
         >

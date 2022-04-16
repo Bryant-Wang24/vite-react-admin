@@ -15,7 +15,7 @@ import Login from './pages/login';
 import checkLogin from './utils/checkLogin';
 import changeTheme from './utils/changeTheme';
 import useStorage from './utils/useStorage';
-import './mock';
+// import './mock';
 
 const store = createStore(rootReducer);
 
@@ -47,7 +47,7 @@ function Index() {
     console.log('window.location.pathname', window.location.pathname);
     if (checkLogin()) {
       fetchUserInfo();
-    } else if (window.location.pathname!== '/admin/login') {
+    } else if (window.location.pathname !== '/admin/login') {
       window.location.pathname = '/admin/login';
     }
   }, []);
