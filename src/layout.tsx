@@ -31,14 +31,8 @@ const Content = Layout.Content;
 
 function getIconFromKey(key) {
   switch (key) {
-    case 'dashboard':
-      return <IconDashboard className={styles.icon} />;
-    case 'dashboard/workplace':
-      return <IconPhone className={styles.icon} />;
-    case 'example':
-      return <IconTag className={styles.icon} />;
-    case 'categories':
-      return <IconStorage className={styles.icon} />;
+    // case 'categories':
+    //   return <IconStorage className={styles.icon} />;
     default:
       return <div className={styles['icon-empty']} />;
   }
