@@ -1,5 +1,5 @@
 export interface UserInfo {
-  userName: string;
+  username: string;
   password: string;
 }
 
@@ -11,7 +11,7 @@ export interface LogoutMessage {
 export interface LoginResParams {
   data: {
     token: string;
-    userName: string;
+    username: string;
   };
   msg?: string;
   code?: number;

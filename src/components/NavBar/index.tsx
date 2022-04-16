@@ -62,8 +62,6 @@ function Navbar({ show }: { show: boolean }) {
   }
 
   useEffect(() => {
-    console.log('userInfo', userInfo);
-
     dispatch({
       type: 'update-userInfo',
       payload: {
