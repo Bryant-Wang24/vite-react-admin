@@ -18,7 +18,7 @@ export const routes: Route[] = [
     key: 'article',
   },
   {
-    name: 'menu.categories',
+    name: '分类管理',
     key: 'categories',
   },
   {
