@@ -25,6 +25,7 @@ export const request = (config) => {
       console.log(error);
     }
   );
+console.log('config',config);
 
   return http(config);
 };

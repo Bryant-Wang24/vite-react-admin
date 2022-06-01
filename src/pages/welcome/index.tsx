@@ -7,7 +7,7 @@ function Example() {
       <Typography.Title heading={6}>
         This is a very basic and simple page
       </Typography.Title>
-      <Typography.Text>You can add content here :)</Typography.Text>
+      <Typography.Text>You can add content here</Typography.Text>
     </Card>
   );
 }

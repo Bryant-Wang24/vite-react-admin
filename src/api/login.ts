@@ -15,3 +15,18 @@ export async function logout() {
     method: 'post',
   });
 }
+
+// 获取标签
+export async function fetchTags() {
+  return request({
+    url: '/tags'
+  });
+}
+
+// 添加标签
+export async function addTag(params){
+  return request({
+    url:'/tags',
+    method:'post'
+  })
+}

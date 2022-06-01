@@ -25,6 +25,7 @@ export default function LoginForm() {
   function afterLoginSuccess(params) {
     // 记录登录状态
     localStorage.setItem('token', params.token);
+    debugger
     // 跳转首页
     window.location.href = '/';
   }

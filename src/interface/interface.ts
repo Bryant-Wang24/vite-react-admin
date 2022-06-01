@@ -16,3 +16,13 @@ export interface LoginResParams {
   msg?: string;
   code?: number;
 }
+
+// 标签列表参数
+export interface TagListProps {
+  articleNum: number
+  createTime: string
+  name: string
+  status: boolean
+  updateTime: string
+  _id: string
+}
