@@ -19,14 +19,32 @@ export async function logout() {
 // 获取标签
 export async function fetchTags() {
   return request({
-    url: '/tags'
+    url: '/tags',
   });
 }
 
 // 添加标签
-export async function addTag(params){
+export async function addTag(params) {
   return request({
-    url:'/tags',
-    method:'post'
-  })
+    url: '/tags',
+    method: 'post',
+    data: params,
+  });
+}
+
+// 修改标签
+export async function updateTag(params) {
+  return request({
+    url: `/tags/${params.id}`,
+    method: 'put',
+    data: { name: params.name },
+  });
+}
+
+// 删除标签
+export async function deleteTag(id) {
+  return request({
+    url: `/tags/${id}`,
+    method: 'delete',
+  });
 }
