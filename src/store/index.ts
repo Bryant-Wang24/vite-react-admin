@@ -30,8 +30,6 @@ export default function store(state = initialState, action) {
     }
     case 'update-userInfo': {
       const { userInfo = initialState.userInfo, userLoading } = action.payload;
-      console.log('action',action);
-      
       return {
         ...state,
         userLoading,

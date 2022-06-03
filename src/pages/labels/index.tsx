@@ -8,14 +8,20 @@ import {
   Form,
   Input,
   Modal,
+  Message,
 } from '@arco-design/web-react';
 import { addTag, deleteTag, fetchTags, updateTag } from '@/api/login';
 import { ColumnProps } from '@arco-design/web-react/es/Table';
 import { TagListProps } from '@/interface/interface';
 const FormItem = Form.Item;
 function Label() {
-  const [visible, setVisible] = useState(false);
-  const [name, setName] = useState('');
+  const [form] = Form.useForm();
+  const { getFieldValue, setFieldValue } = form;
+  const [state, setState] = useState({
+    title: '添加标签',
+    visible: false,
+    id: '',
+  });
   const [tagList, setTagList] = useState();
   useEffect(() => {
     getTagsList();
@@ -28,18 +34,28 @@ function Label() {
   };
 
   const onAddTag = async () => {
-    await addTag({ name: name });
+    await addTag({ name: getFieldValue('name') });
     getTagsList();
-    setVisible(false);
+    setState({ ...state, visible: false });
   };
 
-  const onModifyTag = async (id: string) => {
-    await updateTag({ id: id, name: '55555' });
+  const onModifyTag = async () => {
+    await updateTag({ id: state.id, name: getFieldValue('name') });
     getTagsList();
+    setState({ ...state, visible: false });
   };
   const onDeleteTag = async (id: string) => {
     await deleteTag(id);
     getTagsList();
+  };
+
+  const onOk = async () => {
+    try {
+      await form.validate(['name']);
+      state.title === '添加标签' ? onAddTag() : onModifyTag();
+    } catch (e) {
+      Message.error('至少输入2个字符');
+    }
   };
   const columns: ColumnProps<TagListProps>[] = [
     {
@@ -69,7 +85,7 @@ function Label() {
         <>
           <Switch
             onChange={(value) => {
-              console.log('value', value);
+              console.log('status', value);
             }}
             defaultChecked={record.status}
           />
@@ -81,7 +97,15 @@ function Label() {
       render: (_, record) => (
         <>
           <Button
-            onClick={() => onModifyTag(record._id)}
+            onClick={() => {
+              setState({
+                ...state,
+                visible: true,
+                id: record._id,
+                title: '修改标签',
+              });
+              setFieldValue('name', record.name);
+            }}
             type="primary"
             style={{ marginRight: '10px' }}
           >
@@ -105,7 +129,8 @@ function Label() {
         <Button
           type="primary"
           onClick={() => {
-            setVisible(true);
+            setState({ ...state, visible: true, title: '添加标签' });
+            setFieldValue('name', '');
           }}
         >
           添加标签
@@ -115,18 +140,26 @@ function Label() {
         <Table rowKey="_id" columns={columns} data={tagList} />
       </Typography.Text>
       <Modal
-        title="添加标签"
-        visible={visible}
-        onOk={onAddTag}
-        onCancel={() => setVisible(false)}
+        maskClosable={false}
+        title={state.title}
+        visible={state.visible}
+        onOk={onOk}
+        onCancel={() => setState({ ...state, visible: false })}
       >
-        <Form>
-          <FormItem label="标签名称">
-            <Input
-              onChange={(e: string) => {
-                setName(e);
-              }}
-            />
+        <Form form={form}>
+          <FormItem
+            label="标签名称"
+            field="name"
+            required
+            rules={[
+              {
+                validator(value, cb) {
+                  if (!value || value.length < 2) return cb('至少输入2个字符');
+                },
+              },
+            ]}
+          >
+            <Input minLength={2} maxLength={20} placeholder="请输入标签名称" />
           </FormItem>
         </Form>
       </Modal>

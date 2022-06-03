@@ -25,7 +25,7 @@ export default function LoginForm() {
   function afterLoginSuccess(params) {
     // 记录登录状态
     localStorage.setItem('token', params.token);
-    debugger
+    debugger;
     // 跳转首页
     window.location.href = '/';
   }
@@ -52,7 +52,6 @@ export default function LoginForm() {
   function onSubmitClick() {
     formRef.current.validate().then((values) => {
       login(values);
-      console.log(values);
     });
   }
   return (
