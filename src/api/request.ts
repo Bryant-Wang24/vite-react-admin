@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Message } from '@arco-design/web-react';
 
 export const request = (config) => {
   const http = axios.create({
@@ -19,10 +20,17 @@ export const request = (config) => {
   // 响应拦截
   http.interceptors.response.use(
     (response) => {
+      if (response.data.code === -1) {
+        Message.warning(response.data.msg);
+      } else if (response.data.code === 0) {
+        if (response.data.msg === 'success')
+          return response.data ? response.data : response;
+        Message.success(response.data.msg);
+      }
       return response.data ? response.data : response;
     },
     (error) => {
-      console.log(error);
+      Message.error(error);
     }
   );
   return http(config);

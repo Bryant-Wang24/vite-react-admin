@@ -9,6 +9,8 @@ import {
   Input,
   Modal,
   Message,
+  Spin,
+  Popconfirm,
 } from '@arco-design/web-react';
 import { addTag, deleteTag, fetchTags, updateTag } from '@/api/login';
 import { ColumnProps } from '@arco-design/web-react/es/Table';
@@ -22,29 +24,42 @@ function Label() {
     visible: false,
     id: '',
   });
+  const [loading, setLoading] = useState(false);
   const [tagList, setTagList] = useState();
   useEffect(() => {
     getTagsList();
   }, []);
 
   const getTagsList = () => {
-    fetchTags().then((res) => {
-      setTagList(res.data.list);
-    });
+    setLoading(true);
+    fetchTags()
+      .then((res) => {
+        setTagList(res.data.list);
+        setLoading(false);
+      })
+      .catch((err) => {
+        new Message(err);
+      });
   };
 
   const onAddTag = async () => {
+    setLoading(true);
     await addTag({ name: getFieldValue('name') });
     getTagsList();
     setState({ ...state, visible: false });
   };
 
   const onModifyTag = async () => {
-    await updateTag({ id: state.id, name: getFieldValue('name') });
+    setLoading(true);
+    await updateTag({
+      id: state.id,
+      name: getFieldValue('name'),
+    });
     getTagsList();
     setState({ ...state, visible: false });
   };
   const onDeleteTag = async (id: string) => {
+    setLoading(true);
     await deleteTag(id);
     getTagsList();
   };
@@ -111,59 +126,69 @@ function Label() {
           >
             修改
           </Button>
-          <Button
-            onClick={() => onDeleteTag(record._id)}
-            type="primary"
-            status="danger"
+          <Popconfirm
+            title="是否确认删除标签？"
+            onOk={() => {
+              onDeleteTag(record._id);
+            }}
           >
-            删除
-          </Button>
+            <Button type="primary" status="danger">
+              删除
+            </Button>
+          </Popconfirm>
         </>
       ),
     },
   ];
 
   return (
-    <Card style={{ height: '80vh' }}>
-      <Typography.Title heading={6}>
-        <Button
-          type="primary"
-          onClick={() => {
-            setState({ ...state, visible: true, title: '添加标签' });
-            setFieldValue('name', '');
-          }}
-        >
-          添加标签
-        </Button>
-      </Typography.Title>
-      <Typography.Text>
-        <Table rowKey="_id" columns={columns} data={tagList} />
-      </Typography.Text>
-      <Modal
-        maskClosable={false}
-        title={state.title}
-        visible={state.visible}
-        onOk={onOk}
-        onCancel={() => setState({ ...state, visible: false })}
-      >
-        <Form form={form}>
-          <FormItem
-            label="标签名称"
-            field="name"
-            required
-            rules={[
-              {
-                validator(value, cb) {
-                  if (!value || value.length < 2) return cb('至少输入2个字符');
-                },
-              },
-            ]}
+    <Spin size={30} loading={loading}>
+      <Card style={{ height: '80vh' }}>
+        <Typography.Title heading={6}>
+          <Button
+            type="primary"
+            onClick={() => {
+              setState({ ...state, visible: true, title: '添加标签' });
+              setFieldValue('name', '');
+            }}
           >
-            <Input minLength={2} maxLength={20} placeholder="请输入标签名称" />
-          </FormItem>
-        </Form>
-      </Modal>
-    </Card>
+            添加标签
+          </Button>
+        </Typography.Title>
+        <Typography.Text>
+          <Table rowKey="_id" columns={columns} data={tagList} />
+        </Typography.Text>
+        <Modal
+          maskClosable={false}
+          title={state.title}
+          visible={state.visible}
+          onOk={onOk}
+          onCancel={() => setState({ ...state, visible: false })}
+        >
+          <Form form={form}>
+            <FormItem
+              label="标签名称"
+              field="name"
+              required
+              rules={[
+                {
+                  validator(value, cb) {
+                    if (!value || value.length < 2)
+                      return cb('至少输入2个字符');
+                  },
+                },
+              ]}
+            >
+              <Input
+                minLength={2}
+                maxLength={20}
+                placeholder="请输入标签名称"
+              />
+            </FormItem>
+          </Form>
+        </Modal>
+      </Card>
+    </Spin>
   );
 }
 
