@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import {
   Typography,
   Card,
@@ -17,6 +18,16 @@ import { ColumnProps } from '@arco-design/web-react/es/Table';
 import { TagListProps } from '@/interface/interface';
 const FormItem = Form.Item;
 function Label() {
+  // const [data, setData] = useState(allData);
+  // const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [pagination, setPagination] = useState({
+    sizeCanChange: true,
+    showTotal: true,
+    total: 96,
+    pageSize: 10,
+    current: 1,
+    pageSizeChangeResetCurrent: true,
+  });
   const [form] = Form.useForm();
   const { getFieldValue, setFieldValue } = form;
   const [state, setState] = useState({
@@ -30,11 +41,23 @@ function Label() {
     getTagsList();
   }, []);
 
-  const getTagsList = () => {
+  const getTagsList = async (data?) => {
     setLoading(true);
-    fetchTags()
+    fetchTags(data)
       .then((res) => {
         setTagList(res.data.list);
+        setPagination({
+          ...pagination,
+          total: res.data.totalCount,
+          current: res.data.page,
+          pageSize: res.data.pageSize,
+        });
+        setState({
+          ...state,
+
+          visible: false,
+        });
+
         setLoading(false);
       })
       .catch((err) => {
@@ -55,8 +78,7 @@ function Label() {
       id: state.id,
       name: getFieldValue('name'),
     });
-    getTagsList();
-    setState({ ...state, visible: false });
+    await getTagsList();
   };
   const onDeleteTag = async (id: string) => {
     setLoading(true);
@@ -72,6 +94,20 @@ function Label() {
       Message.error('至少输入2个字符');
     }
   };
+  const onChangeTable = (pagination) => {
+    const { current, pageSize } = pagination;
+    setLoading(true);
+    setTimeout(() => {
+      getTagsList({ pageSize, page: current });
+      setPagination((pagination) => ({
+        ...pagination,
+        current,
+        pageSize,
+      }));
+      setLoading(false);
+    }, 1000);
+  };
+
   const columns: ColumnProps<TagListProps>[] = [
     {
       title: '标签ID',
@@ -88,10 +124,16 @@ function Label() {
     {
       title: '创建时间',
       dataIndex: 'createTime',
+      render: (_, record) => {
+        return dayjs(record.createTime).format('YYYY-MM-DD HH:mm:ss');
+      },
     },
     {
       title: '更新时间',
       dataIndex: 'updateTime',
+      render: (_, record) => {
+        return dayjs(record.updateTime).format('YYYY-MM-DD HH:mm:ss');
+      },
     },
     {
       title: '标签状态',
@@ -142,8 +184,8 @@ function Label() {
   ];
 
   return (
-    <Spin size={30} loading={loading}>
-      <Card style={{ height: '80vh' }}>
+    <Spin style={{ width: '100%' }} size={30} loading={loading}>
+      <Card style={{ height: '84vh' }}>
         <Typography.Title heading={6}>
           <Button
             type="primary"
@@ -156,7 +198,21 @@ function Label() {
           </Button>
         </Typography.Title>
         <Typography.Text>
-          <Table rowKey="_id" columns={columns} data={tagList} />
+          <Table
+            rowKey="_id"
+            columns={columns}
+            data={tagList}
+            pagination={pagination}
+            onChange={onChangeTable}
+            // rowSelection={{
+            //   selectedRowKeys,
+            //   onChange: (selectedRowKeys, selectedRows) => {
+            //     console.log('selectedRowKeys', selectedRowKeys);
+            //     console.log('selectedRows', selectedRows);
+            //     setSelectedRowKeys(selectedRowKeys);
+            //   },
+            // }}
+          />
         </Typography.Text>
         <Modal
           maskClosable={false}
