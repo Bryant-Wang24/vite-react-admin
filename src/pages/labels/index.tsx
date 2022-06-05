@@ -21,12 +21,12 @@ function Label() {
   // const [data, setData] = useState(allData);
   // const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [pagination, setPagination] = useState({
-    sizeCanChange: true,
+    // sizeCanChange: true,
     showTotal: true,
     total: 96,
     pageSize: 10,
     current: 1,
-    pageSizeChangeResetCurrent: true,
+    // pageSizeChangeResetCurrent: true,
   });
   const [form] = Form.useForm();
   const { getFieldValue, setFieldValue } = form;
